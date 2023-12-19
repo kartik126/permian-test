@@ -60,9 +60,13 @@ export default function Home() {
             </span>
           </ButtonBack>
           <Slider>
-            {imagesData.map((image, index) => (
+            {imagesData?.map((image, index) => (
               <Slide key={image.id} index={index}>
-                <DelayedStreamCard url={image.url} index={index} />
+                <DelayedStreamCard
+                  url={image.url}
+                  description={image.description}
+                  index={index}
+                />
               </Slide>
             ))}
           </Slider>
@@ -75,19 +79,20 @@ export default function Home() {
   );
 }
 
-const DelayedStreamCard = ({ url, index }: any) => {
+const DelayedStreamCard = ({ url, description, index }: any) => {
   const [visibleIndex, setVisibleIndex] = useState(-1);
 
   useEffect(() => {
-    const timeoutId = setTimeout(
-      () => {
-        setVisibleIndex(index);
-      },
-      index == 0 ? 1371 : index * 5000
-    );
+    const timeoutId = setTimeout(() => {
+      setVisibleIndex(index);
+    }, index === 0 ? 1000 : index * 1500);
 
     return () => clearTimeout(timeoutId);
   }, [index]);
 
-  return visibleIndex === index ? <StreamCard url={url} /> : <Loader />;
+  if (visibleIndex !== index) {
+    return <Loader />;
+  }
+
+  return <StreamCard url={url} description={description} />;
 };
