@@ -113,7 +113,7 @@ const DelayedStreamCard = ({ url, index }: any) => {
       () => {
         setVisibleIndex(index);
       },
-      index == 0 ? 1371 : index * 6326
+      index == 0 ? 1371 : index * 5000
     );
 
     return () => clearTimeout(timeoutId);
